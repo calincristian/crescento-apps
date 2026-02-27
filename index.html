@@ -1401,6 +1401,10 @@
         if (sheetDragMode) { renderSheetDragBox(0); renderSheetDragBox(1); }
       }
 
+      function shouldClearSimDiagram() {
+        return !val('role-c1-rollLength') && !val('role-c2-numSheets');
+      }
+
       function shrinkCutsIfOverflow(id) {
         var el = document.getElementById(id);
         if (!el) return;
@@ -1423,6 +1427,28 @@
         requestAnimationFrame(function() { requestAnimationFrame(run); });
       }
 
+      function renderCutDiagramWhenReady(cfg, boxId, svgId, attempts) {
+        attempts = attempts || 0;
+        if (!cfg) {
+          renderCutDiagram(cfg, boxId, svgId);
+          return;
+        }
+        var box = document.getElementById(boxId);
+        if (!box) return;
+        var rect = box.getBoundingClientRect();
+        if (rect.width < 80) {
+          if (attempts >= 15) {
+            renderCutDiagram(cfg, boxId, svgId);
+            return;
+          }
+          setTimeout(function() {
+            renderCutDiagramWhenReady(cfg, boxId, svgId, attempts + 1);
+          }, 50);
+          return;
+        }
+        renderCutDiagram(cfg, boxId, svgId);
+      }
+
       function renderCutDiagram(cfg, boxId, svgId) {
         var box = document.getElementById(boxId);
         var svg = document.getElementById(svgId);
@@ -1432,10 +1458,6 @@
         }
 
         var boxRect = box.getBoundingClientRect();
-        if (boxId === 'side-sim-window' && boxRect.width < 80) {
-          requestAnimationFrame(function() { renderCutDiagram(cfg, boxId, svgId); });
-          return;
-        }
 
         var targetHeight = 360;
         var simHost = box;
@@ -1567,7 +1589,7 @@
           output.textContent = 'Introduceți dimensiunile pentru calcul';
           document.getElementById('role-details1').style.display = 'none';
           document.getElementById('role-r1-waste-box').classList.remove('loss');
-          renderCutDiagram(null, 'side-sim-window', 'side-cut-svg');
+          if (shouldClearSimDiagram()) renderCutDiagramWhenReady(null, 'side-sim-window', 'side-cut-svg');
           return;
         }
         if (dimAMM < 100 || dimBMM < 100) {
@@ -1575,7 +1597,7 @@
           output.textContent = 'Dimensiunea minimă a colii este 100 mm';
           document.getElementById('role-details1').style.display = 'none';
           document.getElementById('role-r1-waste-box').classList.remove('loss');
-          renderCutDiagram(null, 'side-sim-window', 'side-cut-svg');
+          if (shouldClearSimDiagram()) renderCutDiagramWhenReady(null, 'side-sim-window', 'side-cut-svg');
           return;
         }
 
@@ -1612,7 +1634,7 @@
           output.textContent = 'Coala nu încape pe lățimea rolei!';
           document.getElementById('role-details1').style.display = 'none';
           document.getElementById('role-r1-waste-box').classList.remove('loss');
-          renderCutDiagram(null, 'side-sim-window', 'side-cut-svg');
+          if (shouldClearSimDiagram()) renderCutDiagramWhenReady(null, 'side-sim-window', 'side-cut-svg');
           return;
         }
 
@@ -1661,7 +1683,7 @@
         document.getElementById('role-details1').style.display = 'grid';
         shrinkCutsIfOverflow('role-r1-cuts-width');
 
-        renderCutDiagram({
+        renderCutDiagramWhenReady({
           rollWidthMM: rollWidthMM,
           sheetOnWidthMM: sheetOnWidthMM,
           sheetOnLengthMM: sheetOnLengthMM,
@@ -1683,7 +1705,7 @@
           output.textContent = 'Introduceți datele pentru calcul';
           document.getElementById('role-details2').style.display = 'none';
           document.getElementById('role-r2-waste-box').classList.remove('loss');
-          renderCutDiagram(null, 'side-sim-window', 'side-cut-svg');
+          if (shouldClearSimDiagram()) renderCutDiagramWhenReady(null, 'side-sim-window', 'side-cut-svg');
           return;
         }
         if (dimAMM < 100 || dimBMM < 100) {
@@ -1691,7 +1713,7 @@
           output.textContent = 'Dimensiunea minimă a colii este 100 mm';
           document.getElementById('role-details2').style.display = 'none';
           document.getElementById('role-r2-waste-box').classList.remove('loss');
-          renderCutDiagram(null, 'side-sim-window', 'side-cut-svg');
+          if (shouldClearSimDiagram()) renderCutDiagramWhenReady(null, 'side-sim-window', 'side-cut-svg');
           return;
         }
 
@@ -1725,7 +1747,7 @@
           output.textContent = 'Coala nu încape pe lățimea rolei!';
           document.getElementById('role-details2').style.display = 'none';
           document.getElementById('role-r2-waste-box').classList.remove('loss');
-          renderCutDiagram(null, 'side-sim-window', 'side-cut-svg');
+          if (shouldClearSimDiagram()) renderCutDiagramWhenReady(null, 'side-sim-window', 'side-cut-svg');
           return;
         }
 
@@ -1769,7 +1791,7 @@
         document.getElementById('role-details2').style.display = 'grid';
         shrinkCutsIfOverflow('role-r2-cuts-width');
 
-        renderCutDiagram({
+        renderCutDiagramWhenReady({
           rollWidthMM: rollWidthMM,
           sheetOnWidthMM: best.sheetOnWidthMM,
           sheetOnLengthMM: best.sheetOnLengthMM,
