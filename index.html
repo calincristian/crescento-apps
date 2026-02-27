@@ -1,0 +1,2122 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Crescento Apps</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Inter', 'Roboto', 'Open Sans', system-ui, -apple-system, sans-serif;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', 'Roboto', 'Open Sans', system-ui, -apple-system, sans-serif;
+      background: #ffffff;
+      color: #0A2351;
+      margin: 0;
+      padding: 1rem;
+      line-height: 1.6;
+    }
+    .logo {
+      display: block;
+      margin: 0 auto 1.5rem auto;
+      max-width: 300px;
+      width: 100%;
+      height: auto;
+    }
+    .card {
+      background: #ffffff;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 1.25rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e5e5e5;
+    }
+    h1 {
+      margin: 0 0 0.35rem 0;
+      color: #0A2351;
+      font-weight: 700;
+      font-size: 1.35rem;
+    }
+    .sub {
+      margin: 0 0 1rem 0;
+      color: #6f7d94;
+      font-size: 0.9rem;
+    }
+    .apps {
+      display: grid;
+      gap: 0.75rem;
+    }
+    .app-btn {
+      width: 100%;
+      border: 1px solid #d0d0d0;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #0A2351;
+      padding: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .app-btn:hover {
+      background: #f5f5f5;
+      border-color: #b0b0b0;
+    }
+    .app-btn:focus-visible {
+      outline: 2px solid #7eda29;
+      outline-offset: 2px;
+    }
+    .app-btn .icon-wrap {
+      width: 75px;
+      height: 75px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #7dd927 0 18px, #001d60 18px);
+      border: none;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+    .app-btn .icon-wrap img {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+      display: block;
+      filter: brightness(0) invert(1);
+    }
+    .app-btn[data-app="consum-cerneala"] .icon-wrap img {
+      width: 36px;
+      height: 36px;
+    }
+    .app-btn .icon-wrap.dual {
+      position: relative;
+    }
+    .app-btn .icon-wrap.dual img {
+      width: 24px;
+      height: 24px;
+      position: absolute;
+    }
+    .app-btn .icon-wrap.dual .dual-a {
+      left: 13px;
+      bottom: 12px;
+    }
+    .app-btn .icon-wrap.dual .dual-b {
+      right: 13px;
+      top: 12px;
+    }
+    .app-btn .icon-wrap.dual-compact .dual-a {
+      left: 14px;
+      bottom: 14px;
+    }
+    .app-btn .icon-wrap.dual-compact .dual-b {
+      right: 14px;
+      top: 14px;
+    }
+    .app-btn .title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      line-height: 1.25;
+      display: block;
+    }
+    .app-btn .meta {
+      display: none;
+    }
+    .applet-shell {
+      display: none;
+      margin-top: 0;
+    }
+    .applet-shell.active {
+      display: block;
+    }
+    .applet-workspace {
+      max-width: 1100px;
+      margin: 0 auto;
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.5rem;
+      align-items: stretch;
+      justify-content: center;
+    }
+    .applet-workspace.with-sim {
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .applet-workspace > .card {
+      margin: 0;
+    }
+    .applet-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      margin-bottom: 0.75rem;
+    }
+    .applet-head h1 {
+      margin: 0;
+    }
+    .home-btn {
+      width: 34px;
+      height: 34px;
+      border: 1px solid #d0d0d0;
+      border-radius: 8px;
+      background: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .home-btn img {
+      width: 18px;
+      height: 18px;
+      display: block;
+    }
+    .home-btn:hover {
+      background: #f5f5f5;
+      border-color: #b0b0b0;
+    }
+    .home-btn:focus-visible {
+      outline: 2px solid #7eda29;
+      outline-offset: 2px;
+    }
+    .role-applet .sheet-mode-btn {
+      display: none;
+    }
+    .applet-placeholder {
+      margin-top: 0.75rem;
+      border: 1px dashed #d0d0d0;
+      border-radius: 8px;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #6f7d94;
+      background: #fafafa;
+    }
+    .applet-panel {
+      display: none;
+    }
+    .applet-panel.active {
+      display: block;
+    }
+    .ink-applet label {
+      display: block;
+      margin-top: 1rem;
+      font-size: 1.05rem;
+      color: #0A2351;
+      font-weight: 600;
+    }
+    .ink-applet .input-row {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    .ink-applet .input-group {
+      flex: 1;
+      min-width: 0;
+    }
+    .ink-applet .input-group label {
+      margin-top: 0;
+    }
+    .ink-applet input {
+      width: 100%;
+      padding: 0.6rem;
+      border-radius: 6px;
+      border: 1px solid #d0d0d0;
+      background: #ffffff;
+      color: #0A2351;
+      margin-top: 0.4rem;
+      box-sizing: border-box;
+      font-size: 1.1rem;
+      transition: border-color 0.2s;
+    }
+    .ink-applet input:focus {
+      outline: none;
+      border-color: #7eda29;
+    }
+    .ink-applet .anilox-group {
+      display: flex;
+      flex-wrap: wrap;
+      row-gap: 0.5rem;
+      column-gap: 0.5rem;
+      margin-top: 0.4rem;
+      align-items: flex-start;
+    }
+    .ink-applet .anilox-btn {
+      flex: 0 0 calc(25% - 0.375rem);
+      padding: 0.6rem 0.8rem;
+      border-radius: 6px;
+      border: 1px solid #d0d0d0;
+      background: #ffffff;
+      color: #0A2351;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin: 0;
+      line-height: 1;
+      font-weight: 500;
+    }
+    .ink-applet .acoperire-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.4rem;
+    }
+    .ink-applet .acoperire-btn {
+      flex: 1;
+      min-width: 60px;
+      padding: 0.6rem 0.8rem;
+      border-radius: 6px;
+      border: 1px solid #d0d0d0;
+      background: #ffffff;
+      color: #0A2351;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+    .ink-applet .anilox-btn:hover,
+    .ink-applet .acoperire-btn:hover {
+      background: #f5f5f5;
+      border-color: #b0b0b0;
+    }
+    .ink-applet .anilox-btn.selected,
+    .ink-applet .acoperire-btn.selected {
+      background: #7eda29;
+      border-color: #7eda29;
+      color: white;
+    }
+    .ink-applet .anilox-btn.selected:hover,
+    .ink-applet .acoperire-btn.selected:hover {
+      background: #65ad22;
+      border-color: #65ad22;
+    }
+    .ink-applet .output {
+      margin-top: 1.5rem;
+      background: #7eda29;
+      padding: 1.5rem;
+      border-radius: 10px;
+      text-align: center;
+      min-height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.975rem;
+      color: white;
+      font-weight: 500;
+    }
+    .ink-applet .output.placeholder {
+      background: #f5f5f5;
+      color: #999;
+      font-style: italic;
+      font-size: 0.675rem;
+      font-weight: normal;
+      border: 1px solid #e5e5e5;
+    }
+    .ink-applet .output strong {
+      font-size: 1em;
+    }
+    .ink-applet .output-number {
+      font-size: 150%;
+      font-weight: bold;
+    }
+    .ink-applet .output small {
+      font-size: 1em;
+      opacity: 0.9;
+    }
+    .ink-applet .output small .output-number {
+      font-size: 125%;
+    }
+    .ink-applet .formulas {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f9f9f9;
+      border-radius: 6px;
+      font-size: 0.6rem;
+      color: #666;
+      line-height: 1.6;
+      border: 1px solid #e5e5e5;
+    }
+    .ink-applet .formulas div {
+      margin-bottom: 0.5rem;
+    }
+    .ink-applet .formulas div:last-child {
+      margin-bottom: 0;
+    }
+    .role-applet label {
+      display: block;
+      margin-top: 1rem;
+      font-size: 1.05rem;
+      color: #0A2351;
+      font-weight: 600;
+    }
+    .role-applet .input-row {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    .role-applet .input-group {
+      flex: 1;
+      min-width: 0;
+    }
+    .role-applet .input-group label {
+      margin-top: 0;
+    }
+    .role-applet .sheet-inline {
+      margin-top: 1rem;
+    }
+    .role-applet .sheet-inline label {
+      margin-top: 0;
+    }
+    .sheet-label-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .sheet-label-row label { margin-top: 0; }
+    .sheet-drag-wrap {
+      margin-top: 0.5rem;
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      height: 260px;
+      overflow: hidden;
+    }
+    .sheet-drag-paper {
+      position: absolute;
+      left: 0;
+      top: 0;
+      box-sizing: border-box;
+      background: #f8f8f8;
+      border-radius: 2px;
+      box-shadow: rgba(0,0,0,0.07) 0px 1px 2px, rgba(0,0,0,0.07) 0px 2px 4px, rgba(0,0,0,0.07) 0px 4px 8px, rgba(0,0,0,0.07) 0px 8px 16px, rgba(0,0,0,0.07) 0px 16px 32px, rgba(0,0,0,0.07) 0px 32px 64px;
+      z-index: 1;
+    }
+    .sheet-drag-box {
+      position: absolute;
+      left: 0;
+      top: 0;
+      box-sizing: border-box;
+    }
+    .sheet-drag-box .rect {
+      stroke: #e0e0e0;
+      stroke-width: 1px;
+      fill: none;
+    }
+    .sheet-drag-box .dim-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      fill: #111827;
+      dominant-baseline: middle;
+    }
+    .sheet-drag-box .dim-bg { fill: #ffffff; }
+    .sheet-drag-handle {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      cursor: nwse-resize;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+    .sheet-drag-handle img { width: 14px; height: 14px; }
+    .role-applet .sheet-inline-hint {
+      margin: 0.35rem 0 0 0;
+      font-size: 0.64rem;
+      color: #6f7d94;
+      font-weight: 400;
+      line-height: 1.35;
+    }
+    .role-applet .sheet-inline-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 0.4rem;
+    }
+    .role-applet .sheet-inline-row input {
+      margin-top: 0;
+      flex: 1;
+      min-width: 0;
+    }
+    .role-applet .sheet-inline-row input.scrub-input {
+      cursor: text;
+    }
+    .role-applet .sheet-inline-row input.scrub-input.scrubbing {
+      border-color: #7eda29;
+      box-shadow: 0 0 0 3px rgba(126, 218, 41, 0.18);
+    }
+    .role-applet .sheet-inline-row .unit-input.has-scrub input {
+      padding-right: 3.6rem;
+    }
+    .role-applet .sheet-inline-row input.scrub-input::-webkit-outer-spin-button,
+    .role-applet .sheet-inline-row input.scrub-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .role-applet .sheet-inline-row input.scrub-input[type=number] {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+    .role-applet .sheet-inline-row .unit-input.has-scrub .unit-tag {
+      right: 1.6rem;
+      color: #6f7d94;
+      font-weight: 600;
+    }
+    .role-applet .sheet-scrub-zone {
+      position: absolute;
+      right: 0.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1.15rem;
+      height: 1.65rem;
+      border-left: 1px solid #e5e7eb;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: ns-resize;
+      user-select: none;
+      z-index: 3;
+      background: rgba(255, 255, 255, 0.9);
+    }
+    .role-applet .sheet-scrub-zone span {
+      line-height: 1;
+      font-size: 0.5rem;
+      color: #6b7280;
+      pointer-events: none;
+    }
+    .role-applet .sheet-scrub-zone.scrubbing {
+      background: rgba(126, 218, 41, 0.1);
+      border-left-color: #7eda29;
+    }
+    .role-applet .sheet-inline-row .times {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #6f7d94;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .role-applet input {
+      width: 100%;
+      padding: 0.6rem;
+      border-radius: 6px;
+      border: 1px solid #d0d0d0;
+      background: #ffffff;
+      color: #0A2351;
+      margin-top: 0.4rem;
+      box-sizing: border-box;
+      font-size: 1.1rem;
+      transition: border-color 0.2s;
+    }
+    .role-applet input:focus {
+      outline: none;
+      border-color: #7eda29;
+    }
+    .role-applet .unit-input {
+      position: relative;
+      width: 100%;
+    }
+    .role-applet .input-group .unit-input {
+      margin-top: 0.4rem;
+    }
+    .role-applet .sheet-inline-row .unit-input {
+      flex: 1;
+      min-width: 0;
+    }
+    .role-applet .unit-input input {
+      margin-top: 0;
+      padding-right: 2.7rem;
+    }
+    .role-applet .unit-tag {
+      position: absolute;
+      right: 0.7rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #6f7d94;
+      pointer-events: none;
+    }
+    .role-applet .tab-group {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.9rem;
+    }
+    .role-applet .tab-btn {
+      flex: 1;
+      padding: 0.65rem 0.4rem;
+      border-radius: 6px;
+      border: 1px solid #d0d0d0;
+      background: #ffffff;
+      color: #0A2351;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .role-applet .tab-btn:hover {
+      background: #f5f5f5;
+      border-color: #b0b0b0;
+    }
+    .role-applet .tab-btn.selected {
+      background: #7eda29;
+      border-color: #7eda29;
+      color: #fff;
+    }
+    .role-applet .tab-btn.selected:hover {
+      background: #65ad22;
+      border-color: #65ad22;
+    }
+    .role-applet .calc-panel {
+      display: none;
+    }
+    .role-applet .calc-panel.active {
+      display: block;
+    }
+    .role-applet .section-label {
+      margin-top: 1.4rem;
+      margin-bottom: -0.4rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .role-applet .output {
+      margin-top: 1.5rem;
+      background: #7eda29;
+      padding: 1.5rem;
+      border-radius: 10px;
+      text-align: center;
+      min-height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.975rem;
+      color: white;
+      font-weight: 500;
+    }
+    .role-applet .output.placeholder {
+      background: #f5f5f5;
+      color: #999;
+      font-style: italic;
+      font-size: 0.675rem;
+      font-weight: normal;
+      border: 1px solid #e5e5e5;
+    }
+    .role-applet .output.error {
+      background: rgba(239, 68, 68, 0.12);
+      color: #dc2626;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      font-style: normal;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .role-applet .output strong {
+      font-size: 1em;
+    }
+    .role-applet .output-number {
+      font-size: 150%;
+      font-weight: bold;
+    }
+    .role-applet .output small {
+      font-size: 1em;
+      opacity: 0.9;
+    }
+    .role-applet .details {
+      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+    .role-applet .detail-box {
+      background: #f9f9f9;
+      border: 1px solid #e5e5e5;
+      border-radius: 6px;
+      padding: 0.75rem;
+      min-width: 0;
+    }
+    .role-applet .detail-box.loss {
+      background: rgba(239, 68, 68, 0.12);
+      border-color: rgba(239, 68, 68, 0.35);
+    }
+    .role-applet .detail-value {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0A2351;
+    }
+    .role-applet #role-r1-cuts-width,
+    .role-applet #role-r2-cuts-width {
+      white-space: nowrap;
+      overflow-x: auto;
+    }
+    .role-applet .detail-label {
+      font-size: 0.72rem;
+      color: #999;
+      margin: 0 0 0.25rem 0;
+    }
+    .role-applet .waste-bar {
+      margin-top: 0.75rem;
+      padding: 0.6rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    .role-applet .waste-low { background: rgba(126, 218, 41, 0.12); color: #4a9012; }
+    .role-applet .waste-med { background: rgba(245, 158, 11, 0.12); color: #b45309; }
+    .role-applet .waste-high { background: rgba(239, 68, 68, 0.12); color: #dc2626; }
+    .role-applet .formulas {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f9f9f9;
+      border-radius: 6px;
+      font-size: 0.6rem;
+      color: #666;
+      line-height: 1.6;
+      border: 1px solid #e5e5e5;
+    }
+    .role-applet .formulas div {
+      margin-bottom: 0.5rem;
+    }
+    .role-applet .formulas div:last-child {
+      margin-bottom: 0;
+    }
+    .credits {
+      max-width: 600px;
+      margin: 0.85rem auto 0;
+      display: flex;
+      justify-content: flex-end;
+      position: relative;
+    }
+    .i-tip {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1px solid rgba(10, 35, 81, 0.1);
+      background: rgba(10, 35, 81, 0.02);
+      color: rgba(10, 35, 81, 0.22);
+      font-size: 0.55rem;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0.35;
+      transition: opacity 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .i-tip:hover,
+    .i-tip:focus-visible {
+      opacity: 0.7;
+      border-color: rgba(10, 35, 81, 0.22);
+      background: rgba(10, 35, 81, 0.05);
+      outline: none;
+    }
+    .refs-pop {
+      position: absolute;
+      right: 0;
+      bottom: 22px;
+      width: min(88vw, 320px);
+      padding: 0.45rem 0.55rem;
+      border: 1px solid rgba(10, 35, 81, 0.1);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+      font-size: 0.58rem;
+      color: rgba(10, 35, 81, 0.45);
+      opacity: 0;
+      transform: translateY(4px);
+      pointer-events: none;
+      transition: opacity 0.16s, transform 0.16s;
+    }
+    .refs-pop a {
+      color: rgba(10, 35, 81, 0.5);
+      text-decoration: none;
+    }
+    .credits:hover .refs-pop,
+    .credits:focus-within .refs-pop {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .sim-window {
+      width: 360px;
+      display: none;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    .sim-window-title {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0A2351;
+      text-align: center;
+    }
+    .sim-window svg {
+      width: 100%;
+      flex: 1;
+      min-height: 0;
+      display: block;
+    }
+    .sim-window::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 30%;
+      pointer-events: none;
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.92) 55%,
+        #ffffff 78%,
+        #ffffff 100%
+      );
+    }
+    @media (max-width: 910px) {
+      .applet-workspace.with-sim {
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+      }
+      .applet-workspace.with-sim .card {
+        width: 100%;
+        max-width: 600px;
+      }
+    }
+    @media (min-width: 501px) {
+      body { padding: 2rem; }
+      .card { padding: 2rem; }
+      h1 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <img src="https://crescento.ro/wp-content/uploads/2025/05/logo-crescento-iasi-notagline-300x65.png" alt="Crescento Logo" class="logo">
+
+  <div class="card" id="landing">
+    <div class="apps">
+      <button class="app-btn" type="button" data-app="consum-cerneala">
+        <span class="icon-wrap">
+          <img src="https://cdn-icons-png.flaticon.com/512/81/81329.png" alt="Consum cerneală icon">
+        </span>
+        <span>
+          <span class="title">Consum cerneală</span>
+          <span class="meta">calculator consum</span>
+        </span>
+      </button>
+
+      <button class="app-btn" type="button" data-app="coli-rola">
+        <span class="icon-wrap dual dual-compact">
+          <img class="dual-a" src="https://cdn-icons-png.flaticon.com/512/1413/1413346.png" alt="Rolă icon">
+          <img class="dual-b" src="https://cdn-icons-png.flaticon.com/512/1/1370.png" alt="Coli icon">
+        </span>
+        <span>
+          <span class="title">Convertor Coli &lt;-&gt; Rolă</span>
+          <span class="meta">conversii coli ↔ rolă</span>
+        </span>
+      </button>
+
+      <button class="app-btn" type="button" data-app="lungime-greutate">
+        <span class="icon-wrap dual">
+          <img class="dual-a" src="https://cdn-icons-png.flaticon.com/512/5009/5009462.png" alt="Greutate icon">
+          <img class="dual-b" src="https://cdn-icons-png.flaticon.com/512/1413/1413346.png" alt="Rolă icon">
+        </span>
+        <span>
+          <span class="title">Lungime rolă din greutate</span>
+          <span class="meta">din gramaj, lățime și greutate</span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <div class="applet-workspace">
+    <div class="card applet-shell" id="applet-shell">
+      <div class="applet-head">
+        <h1 id="applet-title">Applet</h1>
+        <button class="home-btn" type="button" id="go-home" aria-label="Acasă">
+          <img src="https://cdn-icons-png.flaticon.com/512/1946/1946488.png" alt="Home icon">
+        </button>
+      </div>
+      <div class="applet-panel ink-applet" id="applet-consum-cerneala">
+      <div class="input-row">
+        <div class="input-group">
+          <label>Lățime bandă (mm)</label>
+          <input type="number" id="ink-latime" placeholder="ex. 610">
+        </div>
+        <div class="input-group">
+          <label>Lungime tipărită (m)</label>
+          <input type="number" id="ink-lungime" placeholder="ex. 20000">
+        </div>
+      </div>
+      <label>Anilox</label>
+      <div class="anilox-group">
+        <button class="anilox-btn selected" type="button" data-value="1.2">1.2</button>
+        <button class="anilox-btn" type="button" data-value="3.5">3.5</button>
+        <button class="anilox-btn" type="button" data-value="4.5">4.5</button>
+        <button class="anilox-btn" type="button" data-value="5">5</button>
+        <button class="anilox-btn" type="button" data-value="6">6</button>
+        <button class="anilox-btn" type="button" data-value="9">9</button>
+        <button class="anilox-btn" type="button" data-value="12">12</button>
+        <button class="anilox-btn" type="button" data-value="14">14</button>
+      </div>
+      <label>Grad acoperire</label>
+      <div class="acoperire-group">
+        <button class="acoperire-btn selected" type="button" data-value="10%">10%</button>
+        <button class="acoperire-btn" type="button" data-value="25%">25%</button>
+        <button class="acoperire-btn" type="button" data-value="50%">50%</button>
+        <button class="acoperire-btn" type="button" data-value="75%">75%</button>
+        <button class="acoperire-btn" type="button" data-value="100%">100%</button>
+      </div>
+      <div class="output placeholder" id="ink-rezultat">Introduceți date pentru calculul consumului</div>
+      <div class="formulas" id="ink-formule" style="display:none;"></div>
+    </div>
+      <div class="applet-panel role-applet" id="applet-coli-rola">
+      <div class="tab-group">
+        <button class="tab-btn selected" type="button" data-tab="0">Rolă -> Coli</button>
+        <button class="tab-btn" type="button" data-tab="1">Coli -> Rolă</button>
+      </div>
+
+      <div class="calc-panel active" id="role-panel0">
+        <div class="sheet-inline">
+          <div class="sheet-label-row">
+            <label>Dimensiune coală</label>
+            <button class="home-btn sheet-mode-btn" type="button" data-sheet-panel="0" aria-label="Mod vizual dimensiune">
+              <img src="https://cdn-icons-png.flaticon.com/512/9417/9417123.png" alt="">
+            </button>
+          </div>
+          <div class="sheet-input-wrap" id="sheet-input-wrap-0">
+            <div class="sheet-inline-row">
+              <div class="unit-input">
+                <input type="number" id="role-c1-sheetLength" placeholder="ex. 700">
+                <span class="unit-tag">mm</span>
+              </div>
+              <span class="times">x</span>
+              <div class="unit-input">
+                <input type="number" id="role-c1-sheetWidth" placeholder="ex. 500">
+                <span class="unit-tag">mm</span>
+              </div>
+            </div>
+          </div>
+          <div class="sheet-drag-wrap" id="sheet-drag-wrap-0" style="display:none">
+            <div class="sheet-drag-paper effect" id="sheet-drag-paper-0">
+              <div class="sheet-drag-box" id="sheet-drag-box-0"></div>
+            </div>
+          </div>
+          <p class="sheet-inline-hint">Ordinea dintre lățime și lungime nu contează, orientarea în rolă va fi optimizată pentru a minimiza pierderile. </p>
+          <p class="sheet-inline-hint">Trageți vertical de săgețile din dreapta câmpului pentru a glisa prin valori. </p>
+
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label>Lungime rolă</label>
+            <div class="unit-input">
+              <input type="number" id="role-c1-rollLength" placeholder="ex. 3000">
+              <span class="unit-tag">m</span>
+            </div>
+          </div>
+          <div class="input-group">
+            <label>Lățime rolă</label>
+            <div class="unit-input">
+              <input type="number" id="role-c1-rollWidth" placeholder="ex. 500">
+              <span class="unit-tag">mm</span>
+            </div>
+          </div>
+        </div>
+        <div class="details" id="role-details1" style="display:none;">
+          <div class="detail-box" id="role-r1-waste-box">
+            <div class="detail-label">Pierderi pe lățime</div>
+            <div class="detail-value" id="role-r1-waste">-</div>
+          </div>
+          <div class="detail-box">
+            <div class="detail-label">Distribuție optimă lățime x lungime rolă</div>
+            <div class="detail-value" id="role-r1-counts">-</div>
+          </div>
+          <div class="detail-box">
+            <div class="detail-label">Pas tăiere lungime rolă</div>
+            <div class="detail-value" id="role-r1-step-length">-</div>
+          </div>
+          <div class="detail-box">
+            <div class="detail-label">Tăieturi necesare pe lățimea rolei</div>
+            <div class="detail-value" id="role-r1-cuts-width">-</div>
+          </div>
+        </div>
+        <div class="output placeholder" id="role-result1">Introduceți dimensiunile pentru calcul</div>
+      </div>
+
+      <div class="calc-panel" id="role-panel1">
+        <div class="sheet-inline">
+          <div class="sheet-label-row">
+            <label>Dimensiune coală</label>
+            <button class="home-btn sheet-mode-btn" type="button" data-sheet-panel="1" aria-label="Mod vizual dimensiune">
+              <img src="https://cdn-icons-png.flaticon.com/512/9417/9417123.png" alt="">
+            </button>
+          </div>
+          <div class="sheet-input-wrap" id="sheet-input-wrap-1">
+            <div class="sheet-inline-row">
+              <div class="unit-input">
+                <input type="number" id="role-c2-sheetLength" placeholder="ex. 700">
+                <span class="unit-tag">mm</span>
+              </div>
+              <span class="times">x</span>
+              <div class="unit-input">
+                <input type="number" id="role-c2-sheetWidth" placeholder="ex. 500">
+                <span class="unit-tag">mm</span>
+              </div>
+            </div>
+          </div>
+          <div class="sheet-drag-wrap" id="sheet-drag-wrap-1" style="display:none">
+            <div class="sheet-drag-paper effect" id="sheet-drag-paper-1">
+              <div class="sheet-drag-box" id="sheet-drag-box-1"></div>
+            </div>
+          </div>
+          <p class="sheet-inline-hint">Ordinea dintre lățime și lungime nu contează, orientarea în rolă va fi optimizată pentru a minimiza pierderile.</p>
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label>Număr coli dorite</label>
+            <input type="number" id="role-c2-numSheets" placeholder="ex. 5000">
+          </div>
+          <div class="input-group">
+            <label>Lățime rolă</label>
+            <div class="unit-input">
+              <input type="number" id="role-c2-rollWidth" placeholder="ex. 500">
+              <span class="unit-tag">mm</span>
+            </div>
+          </div>
+        </div>
+        <div class="details" id="role-details2" style="display:none;">
+          <div class="detail-box" id="role-r2-waste-box">
+            <div class="detail-label">Pierderi pe lățime</div>
+            <div class="detail-value" id="role-r2-waste">-</div>
+          </div>
+          <div class="detail-box">
+            <div class="detail-label">Distribuție optimă lățime x lungime rolă</div>
+            <div class="detail-value" id="role-r2-counts">-</div>
+          </div>
+          <div class="detail-box">
+            <div class="detail-label">Pas tăiere lungime rolă</div>
+            <div class="detail-value" id="role-r2-step-length">-</div>
+          </div>
+          <div class="detail-box">
+            <div class="detail-label">Tăieturi necesare pe lățimea rolei</div>
+            <div class="detail-value" id="role-r2-cuts-width">-</div>
+          </div>
+        </div>
+        <div class="output placeholder" id="role-result2">Introduceți datele pentru calcul</div>
+      </div>
+      </div>
+      <div class="applet-panel role-applet" id="applet-lungime-greutate">
+        <div class="input-row">
+          <div class="input-group">
+            <label>Gramaj</label>
+            <div class="unit-input">
+              <input type="number" id="kg-grammage" placeholder="ex. 260">
+              <span class="unit-tag">g/mp</span>
+            </div>
+          </div>
+          <div class="input-group">
+            <label>Lățime rolă</label>
+            <div class="unit-input">
+              <input type="number" id="kg-rollWidth" placeholder="ex. 500">
+              <span class="unit-tag">mm</span>
+            </div>
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label>Greutate rolă</label>
+            <div class="unit-input">
+              <input type="number" id="kg-weight" placeholder="ex. 450">
+              <span class="unit-tag">kg</span>
+            </div>
+          </div>
+        </div>
+        <div class="details" id="kg-details" style="display:none;">
+          <div class="detail-box">
+            <div class="detail-label">Suprafață totală</div>
+            <div class="detail-value" id="kg-area">-</div>
+          </div>
+          <div class="detail-box">
+            <div class="detail-label">Lățime rolă (m)</div>
+            <div class="detail-value" id="kg-width-m">-</div>
+          </div>
+        </div>
+        <div class="output placeholder" id="kg-result">Introduceți datele pentru calcul</div>
+        <div class="formulas" id="kg-formulas" style="display:none;"></div>
+      </div>
+    </div>
+    <div class="card sim-window" id="side-sim-window">
+      <svg viewBox="0 0 560 320" preserveAspectRatio="xMinYMin meet" id="side-cut-svg" role="img" aria-label="simulare tăiere coli"></svg>
+    </div>
+  </div>
+
+  <div class="credits">
+    <button class="i-tip" type="button" aria-label="icon refs">i</button>
+    <div class="refs-pop">
+      icon refs:
+      <a href="https://www.flaticon.com/free-icon/ink-drops_81329" target="_blank" rel="noopener noreferrer">ink drops</a>,
+      <a href="https://www.flaticon.com/free-icon/toilet-paper_1413346" target="_blank" rel="noopener noreferrer">toilet paper roll</a>,
+      <a href="https://www.flaticon.com/free-icon/stack-of-sheets_1370" target="_blank" rel="noopener noreferrer">stack of sheets</a>,
+      <a href="https://www.flaticon.com/free-icon/kilogram_5009462" target="_blank" rel="noopener noreferrer">kilogram</a>,
+      <a href="https://www.flaticon.com/free-icon/home_1946488" target="_blank" rel="noopener noreferrer">home</a>,
+      <a href="https://www.flaticon.com/free-icon/drag-and-drop_9417123" target="_blank" rel="noopener noreferrer">drag-and-drop</a>,
+      <a href="https://www.flaticon.com/free-icon/full-size_93640" target="_blank" rel="noopener noreferrer">full-size</a>,
+      <a href="https://www.flaticon.com/free-icon/number-input_17244309" target="_blank" rel="noopener noreferrer">number-input</a>
+    </div>
+  </div>
+
+  <script>
+    var landing = document.getElementById('landing');
+    var shell = document.getElementById('applet-shell');
+    var sideSimWindow = document.getElementById('side-sim-window');
+    var appletWorkspace = document.querySelector('.applet-workspace');
+
+    function setSimMaxHeight() {
+      if (sideSimWindow.style.display !== 'flex') {
+        sideSimWindow.style.height = '';
+        sideSimWindow.style.maxHeight = '';
+        return;
+      }
+      var h = Math.floor(shell.getBoundingClientRect().height);
+      if (h > 0) {
+        sideSimWindow.style.height = h + 'px';
+        sideSimWindow.style.maxHeight = h + 'px';
+      }
+    }
+    var titleEl = document.getElementById('applet-title');
+    var homeBtn = document.getElementById('go-home');
+    var appPanels = {
+      'consum-cerneala': document.getElementById('applet-consum-cerneala'),
+      'coli-rola': document.getElementById('applet-coli-rola'),
+      'lungime-greutate': document.getElementById('applet-lungime-greutate')
+    };
+    var inkInited = false;
+    var roleInited = false;
+    var kgInited = false;
+
+    var appMeta = {
+      'consum-cerneala': {
+        title: 'Consum cerneală'
+      },
+      'coli-rola': {
+        title: 'Convertor Coli <-> Rolă'
+      },
+      'lungime-greutate': {
+        title: 'Lungime rolă din greutate'
+      }
+    };
+    var appRoutes = {
+      'consum-cerneala': 'consum-cerneala',
+      'coli-rola': 'coli-rola',
+      'lungime-greutate': 'kg-rola'
+    };
+    var routeToApp = {
+      'consum-cerneala': 'consum-cerneala',
+      'coli-rola': 'coli-rola',
+      'kg-rola': 'lungime-greutate'
+    };
+    var cachePrefix = 'crescento-cache:';
+
+    function cacheSave(id, value) {
+      try {
+        window.localStorage.setItem(cachePrefix + id, value || '');
+      } catch (err) {}
+    }
+
+    function cacheLoad(id) {
+      try {
+        var v = window.localStorage.getItem(cachePrefix + id);
+        return v === null ? '' : v;
+      } catch (err) {
+        return '';
+      }
+    }
+
+    function showPanel(appId) {
+      Object.keys(appPanels).forEach(function(id) {
+        appPanels[id].classList.toggle('active', id === appId);
+      });
+    }
+
+    function initInkApplet() {
+      if (inkInited) return;
+      inkInited = true;
+
+      var lookup = {
+        '1.2': { '10%': 0.03, '25%': 0.08, '50%': 0.15, '75%': 0.23, '100%': 0.30 },
+        '3.5': { '10%': 0.09, '25%': 0.22, '50%': 0.44, '75%': 0.66, '100%': 0.88 },
+        '4.5': { '10%': 0.11, '25%': 0.28, '50%': 0.56, '75%': 0.84, '100%': 1.13 },
+        '5': { '10%': 0.13, '25%': 0.31, '50%': 0.63, '75%': 0.94, '100%': 1.25 },
+        '6': { '10%': 0.15, '25%': 0.38, '50%': 0.75, '75%': 1.13, '100%': 1.50 },
+        '9': { '10%': 0.23, '25%': 0.56, '50%': 1.13, '75%': 1.69, '100%': 2.25 },
+        '12': { '10%': 0.30, '25%': 0.75, '50%': 1.50, '75%': 2.25, '100%': 3.00 },
+        '14': { '10%': 0.35, '25%': 0.88, '50%': 1.75, '75%': 2.63, '100%': 3.50 }
+      };
+
+      function selectedVal(selector, fallback) {
+        var selected = document.querySelector(selector + '.selected');
+        return selected ? selected.getAttribute('data-value') : fallback;
+      }
+
+      function calculeaza() {
+        var lat = parseFloat(document.getElementById('ink-latime').value);
+        var lung = parseFloat(document.getElementById('ink-lungime').value);
+        var anilox = selectedVal('#applet-consum-cerneala .anilox-btn', '1.2');
+        var acop = selectedVal('#applet-consum-cerneala .acoperire-btn', '50%');
+        var output = document.getElementById('ink-rezultat');
+        var formulasDiv = document.getElementById('ink-formule');
+
+        if (isNaN(lat) || isNaN(lung) || lat <= 0 || lung <= 0) {
+          output.className = 'output placeholder';
+          output.textContent = 'Introduceți date pentru calculul consumului';
+          formulasDiv.style.display = 'none';
+          return;
+        }
+
+        var acoperire = lookup[anilox][acop];
+        var consum = (lung * lat * acoperire) / 1000000;
+        var arie = (lat / 1000) * lung;
+
+        output.className = 'output';
+        output.innerHTML = '<div><strong>Consum estimat:</strong> <span class="output-number">' + consum.toFixed(2) + ' kg</span> <small>(<span class="output-number">' + acoperire + '</span> g/m²)</small></div>';
+        formulasDiv.style.display = 'block';
+        formulasDiv.innerHTML =
+          '<div>Formulă: Consum (kg) = Lungime_m × Lățime_mm × C_g_m² / 1.000.000</div>' +
+          '<div>Consum (kg) = ' + lung + ' × ' + lat + ' × ' + acoperire + ' / 1.000.000 = ' + consum.toFixed(2) + ' kg</div>' +
+          '<div>Echivalent: Consum (kg) = Arie_m² × C_g_m² / 1000, cu Arie_m² = (Lățime_mm/1000) × Lungime_m</div>' +
+          '<div>Arie_m² = (' + lat + '/1000) × ' + lung + ' = ' + arie.toFixed(2) + ' m²</div>' +
+          '<div>Consum (kg) = ' + arie.toFixed(2) + ' × ' + acoperire + ' / 1000 = ' + consum.toFixed(2) + ' kg</div>';
+      }
+
+      function restrictToNumbers(input) {
+        input.addEventListener('keydown', function(e) {
+          var allowed = ['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'];
+          if (!/[0-9]/.test(e.key) && allowed.indexOf(e.key) === -1 && !(e.ctrlKey && ['a', 'c', 'v', 'x'].indexOf(e.key.toLowerCase()) !== -1)) {
+            e.preventDefault();
+          }
+        });
+        input.addEventListener('input', function() {
+          this.value = this.value.replace(/[^0-9]/g, '');
+          cacheSave(input.id, this.value);
+          calculeaza();
+        });
+        input.addEventListener('paste', function(e) {
+          e.preventDefault();
+          var paste = (e.clipboardData || window.clipboardData).getData('text');
+          var numbers = paste.replace(/[^0-9]/g, '');
+          this.value = numbers;
+          cacheSave(input.id, this.value);
+          calculeaza();
+        });
+      }
+
+      document.querySelectorAll('#applet-consum-cerneala .anilox-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('#applet-consum-cerneala .anilox-btn').forEach(function(b) {
+            b.classList.remove('selected');
+          });
+          btn.classList.add('selected');
+          calculeaza();
+        });
+      });
+
+      document.querySelectorAll('#applet-consum-cerneala .acoperire-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('#applet-consum-cerneala .acoperire-btn').forEach(function(b) {
+            b.classList.remove('selected');
+          });
+          btn.classList.add('selected');
+          calculeaza();
+        });
+      });
+
+      ['ink-latime', 'ink-lungime'].forEach(function(id) {
+        var el = document.getElementById(id);
+        el.value = cacheLoad(id);
+        restrictToNumbers(el);
+      });
+      calculeaza();
+    }
+
+    function initRoleApplet() {
+      if (roleInited) return;
+      roleInited = true;
+
+      function fmt(n) {
+        var num = Number(n);
+        if (!isFinite(num)) return '';
+        var isInt = Math.abs(num - Math.round(num)) < 1e-9;
+        var s = num.toLocaleString('ro-RO', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: isInt ? 0 : 1
+        });
+        return s.replace(/\./g, ' ').replace(/\u00A0/g, ' ').replace(/\u202F/g, ' ');
+      }
+
+      function fmtPct(n) {
+        return Number(n).toFixed(1).replace('.', ',');
+      }
+
+      function val(id) {
+        var v = parseFloat(document.getElementById(id).value);
+        return isNaN(v) || v <= 0 ? null : v;
+      }
+
+      function switchTab(idx) {
+        cacheSave('role-tab', String(idx));
+        document.querySelectorAll('#applet-coli-rola .tab-btn').forEach(function(t, i) {
+          t.classList.toggle('selected', i === idx);
+        });
+        document.querySelectorAll('#applet-coli-rola .calc-panel').forEach(function(p, i) {
+          p.classList.toggle('active', i === idx);
+        });
+        if (sheetDragMode) { renderSheetDragBox(0); renderSheetDragBox(1); }
+        recalcRoleBoth();
+      }
+
+      var sharedPairs = {
+        'role-c1-rollWidth': 'role-c2-rollWidth',
+        'role-c2-rollWidth': 'role-c1-rollWidth',
+        'role-c1-sheetLength': 'role-c2-sheetLength',
+        'role-c2-sheetLength': 'role-c1-sheetLength',
+        'role-c1-sheetWidth': 'role-c2-sheetWidth',
+        'role-c2-sheetWidth': 'role-c1-sheetWidth'
+      };
+
+      function syncSharedField(sourceId) {
+        var targetId = sharedPairs[sourceId];
+        if (!targetId) return;
+        var source = document.getElementById(sourceId);
+        var target = document.getElementById(targetId);
+        if (!source || !target) return;
+        if (target.value !== source.value) target.value = source.value;
+        cacheSave(source.id, source.value);
+        cacheSave(target.id, target.value);
+      }
+
+      var sheetDragMode = cacheLoad('sheet-drag-mode') === '1';
+      var sheetDragMM = { w: 190, h: 190 };
+      var sheetIconDrag = 'https://cdn-icons-png.flaticon.com/512/9417/9417123.png';
+      var sheetIconInput = 'https://cdn-icons-png.flaticon.com/512/17244/17244309.png';
+
+      function getSheetMM() {
+        var l = val('role-c1-sheetLength');
+        var w = val('role-c1-sheetWidth');
+        if (l && w) return { w: Math.round(w), h: Math.round(l) };
+        return { w: sheetDragMM.w, h: sheetDragMM.h };
+      }
+
+      function getMaxVertMM() {
+        var rw = val('role-c1-rollWidth');
+        return (rw && rw >= 100) ? Math.round(rw) : 1000;
+      }
+
+      function setSheetMM(wMM, hMM) {
+        var maxVert = getMaxVertMM();
+        wMM = Math.round(Math.max(100, Math.min(5000, wMM)));
+        hMM = Math.round(Math.max(100, Math.min(maxVert, hMM)));
+        sheetDragMM = { w: wMM, h: hMM };
+        var lEl = document.getElementById('role-c1-sheetLength');
+        var wEl = document.getElementById('role-c1-sheetWidth');
+        if (lEl) { lEl.value = String(hMM); cacheSave(lEl.id, lEl.value); }
+        if (wEl) { wEl.value = String(wMM); cacheSave(wEl.id, wEl.value); }
+        syncSharedField('role-c1-sheetLength');
+        syncSharedField('role-c1-sheetWidth');
+        recalcRoleBoth();
+      }
+
+      function renderSheetDragBox(panelIdx) {
+        var wrap = document.getElementById('sheet-drag-wrap-' + panelIdx);
+        var paper = document.getElementById('sheet-drag-paper-' + panelIdx);
+        var box = document.getElementById('sheet-drag-box-' + panelIdx);
+        if (!wrap || !paper || !box) return;
+        var r = wrap.getBoundingClientRect();
+        var pr = wrap.parentElement ? wrap.parentElement.getBoundingClientRect() : r;
+        if (pr.width < 50) {
+          var alt = document.getElementById('sheet-drag-wrap-' + (1 - panelIdx));
+          if (alt) pr = alt.parentElement ? alt.parentElement.getBoundingClientRect() : alt.getBoundingClientRect();
+        }
+        var cw = Math.max(200, pr.width - 4);
+        var ch = Math.max(140, (wrap.clientHeight || 260) + 20);
+        var maxVert = getMaxVertMM();
+        var scale = Math.min(cw / 1000, ch / maxVert);
+        var mm = getSheetMM();
+        var wPx = Math.max(50, mm.w * scale);
+        var hPx = Math.max(50, mm.h * scale);
+        var pad = 20;
+        paper.style.width = wPx + 'px';
+        paper.style.height = hPx + 'px';
+        box.style.width = (wPx + pad) + 'px';
+        box.style.height = (hPx + pad) + 'px';
+        box.innerHTML =
+          '<svg width="' + wPx + '" height="' + hPx + '" style="display:block;position:absolute;left:0;top:0">' +
+          '<rect class="rect" x="0" y="0" width="' + wPx + '" height="' + hPx + '" stroke="#bbb" stroke-width="1" fill="none"/>' +
+          '</svg>' +
+          '<div class="sheet-drag-handle" style="left:' + (wPx - 12) + 'px;top:' + (hPx - 12) + 'px" data-panel="' + panelIdx + '"><img src="https://cdn-icons-png.flaticon.com/512/93/93640.png" alt=""></div>';
+      }
+
+      function updateSheetModeUI() {
+        document.querySelectorAll('.sheet-input-wrap').forEach(function(el) { el.style.display = sheetDragMode ? 'none' : ''; });
+        document.querySelectorAll('.sheet-drag-wrap').forEach(function(el) { el.style.display = sheetDragMode ? 'block' : 'none'; });
+        document.querySelectorAll('.sheet-mode-btn img').forEach(function(img) {
+          img.src = sheetDragMode ? sheetIconInput : sheetIconDrag;
+        });
+      }
+
+      function toggleSheetDragMode() {
+        sheetDragMode = !sheetDragMode;
+        cacheSave('sheet-drag-mode', sheetDragMode ? '1' : '0');
+        updateSheetModeUI();
+        if (sheetDragMode) {
+          sheetDragMM = getSheetMM();
+          renderSheetDragBox(0);
+          renderSheetDragBox(1);
+          window.addEventListener('resize', onSheetDragResize);
+        } else {
+          window.removeEventListener('resize', onSheetDragResize);
+        }
+      }
+
+      function onSheetDragResize() {
+        if (sheetDragMode) { renderSheetDragBox(0); renderSheetDragBox(1); }
+      }
+
+      function recalcRoleBoth() {
+        calcRollToSheets();
+        calcSheetsToRoll();
+        if (sheetDragMode) { renderSheetDragBox(0); renderSheetDragBox(1); }
+      }
+
+      function shrinkCutsIfOverflow(id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        function run() {
+          if (!el.offsetParent) return;
+          var parent = el.parentElement;
+          if (!parent) return;
+          el.style.fontSize = '';
+          var maxW = parent.clientWidth - 4;
+          if (maxW <= 0) return;
+          el.style.whiteSpace = 'nowrap';
+          var base = 1.05;
+          var step = 0.05;
+          while (el.scrollWidth > maxW && base > 0.5) {
+            base -= step;
+            el.style.fontSize = base + 'rem';
+          }
+          el.style.whiteSpace = '';
+        }
+        requestAnimationFrame(function() { requestAnimationFrame(run); });
+      }
+
+      function renderCutDiagram(cfg, boxId, svgId) {
+        var box = document.getElementById(boxId);
+        var svg = document.getElementById(svgId);
+        if (!cfg || cfg.across < 1 || cfg.sheetOnWidthMM <= 0 || cfg.sheetOnLengthMM <= 0) {
+          svg.innerHTML = '';
+          return;
+        }
+
+        var boxRect = box.getBoundingClientRect();
+        if (boxId === 'side-sim-window' && boxRect.width < 80) {
+          requestAnimationFrame(function() { renderCutDiagram(cfg, boxId, svgId); });
+          return;
+        }
+
+        var targetHeight = 360;
+        var simHost = box;
+        if (simHost) {
+          var hostStyle = window.getComputedStyle(simHost);
+          var padY = parseFloat(hostStyle.paddingTop || '0') + parseFloat(hostStyle.paddingBottom || '0');
+          targetHeight = Math.max(180, simHost.clientHeight - padY);
+        }
+        var innerW = boxRect.width > 24 ? (boxRect.width - 20) : 548;
+        var innerH = targetHeight - 20;
+        if (innerH < 80) innerH = 80;
+
+        var canvasW = 560;
+        var canvasH = Math.max(120, Math.round(canvasW * (innerH / innerW)));
+        var cutCount = Math.max(0, cfg.across - 1);
+        var topPad = 42 + ((1 + cutCount) * 22);
+        var leftPad = 56;
+        var rightPad = 10;
+        var startY = topPad;
+        svg.setAttribute('preserveAspectRatio', 'xMinYMin slice');
+        var rowsPreview = 50;
+        var usableRatio = Math.max(0, Math.min(1, (cfg.rollWidthMM - cfg.wasteMM) / cfg.rollWidthMM));
+        var totalW = canvasW - leftPad - rightPad;
+        var startX = leftPad;
+        var usableW = Math.max(0, totalW * usableRatio);
+        var wasteW = Math.max(0, totalW - usableW);
+        var colW = cfg.across > 0 ? usableW / cfg.across : 0;
+        var rowH = colW * (cfg.sheetOnLengthMM / cfg.sheetOnWidthMM);
+        var totalH = rowsPreview * rowH;
+        var viewH = Math.max(canvasH, Math.ceil(totalH + startY + 8));
+        svg.setAttribute('viewBox', '0 0 ' + canvasW + ' ' + viewH);
+        var lines = '';
+
+        var includeLastCut = cfg.wasteMM > 0.0001;
+        var maxCutIdx = includeLastCut ? cfg.across : (cfg.across - 1);
+        for (var i = 1; i <= maxCutIdx; i++) {
+          var x = startX + (colW * i);
+          lines += '<line x1="' + x.toFixed(2) + '" y1="' + startY + '" x2="' + x.toFixed(2) + '" y2="' + (startY + totalH) + '" stroke="#0A2351" stroke-width="1.5" stroke-dasharray="6 4"></line>';
+        }
+        var separators = Math.min(rowsPreview - 1, Math.max(0, cfg.along - 1));
+        for (var r = 1; r <= separators; r++) {
+          var yLine = startY + (rowH * r);
+          lines += '<line x1="' + startX + '" y1="' + yLine.toFixed(2) + '" x2="' + (startX + totalW) + '" y2="' + yLine.toFixed(2) + '" stroke="#0A2351" stroke-width="1.5" stroke-dasharray="6 4"></line>';
+        }
+
+        var wasteRect = '';
+        if (wasteW > 0.4) {
+          wasteRect = '<rect x="' + (startX + usableW).toFixed(2) + '" y="' + startY + '" width="' + wasteW.toFixed(2) + '" height="' + totalH + '" fill="rgba(239,68,68,0.22)" stroke="#dc2626" stroke-width="1.5"></rect>';
+        }
+
+        function hDim(x1, x2, y, label) {
+          var ah = 6;
+          var mid = (x1 + x2) / 2;
+          var fs = 18;
+          var tw = Math.max(30, label.length * 8);
+          var pad = 14;
+          var rw = tw + pad * 2;
+          var rh = fs + 4;
+          var rx = mid - rw / 2;
+          var ry = y - rh / 2;
+          return '<line x1="' + x1.toFixed(2) + '" y1="' + y.toFixed(2) + '" x2="' + x2.toFixed(2) + '" y2="' + y.toFixed(2) + '" stroke="#111827" stroke-width="1"></line>' +
+            '<line x1="' + x1.toFixed(2) + '" y1="' + y.toFixed(2) + '" x2="' + (x1 + ah).toFixed(2) + '" y2="' + (y - 4).toFixed(2) + '" stroke="#111827" stroke-width="1"></line>' +
+            '<line x1="' + x1.toFixed(2) + '" y1="' + y.toFixed(2) + '" x2="' + (x1 + ah).toFixed(2) + '" y2="' + (y + 4).toFixed(2) + '" stroke="#111827" stroke-width="1"></line>' +
+            '<line x1="' + x2.toFixed(2) + '" y1="' + y.toFixed(2) + '" x2="' + (x2 - ah).toFixed(2) + '" y2="' + (y - 4).toFixed(2) + '" stroke="#111827" stroke-width="1"></line>' +
+            '<line x1="' + x2.toFixed(2) + '" y1="' + y.toFixed(2) + '" x2="' + (x2 - ah).toFixed(2) + '" y2="' + (y + 4).toFixed(2) + '" stroke="#111827" stroke-width="1"></line>' +
+            '<rect x="' + rx.toFixed(2) + '" y="' + ry.toFixed(2) + '" width="' + rw.toFixed(2) + '" height="' + rh + '" rx="2" fill="#ffffff"></rect>' +
+            '<text x="' + mid.toFixed(2) + '" y="' + y.toFixed(2) + '" text-anchor="middle" dominant-baseline="middle" font-size="' + fs + '" fill="#111827">' + label + '</text>';
+        }
+
+        var dimSvg = '';
+        var dimDefs = [{
+          x2: startX + totalW,
+          label: 'lățime rolă ' + fmt(cfg.rollWidthMM) + ' mm'
+        }];
+        for (var c = maxCutIdx; c >= 1; c--) {
+          dimDefs.push({
+            x2: startX + (colW * c),
+            label: fmt(c * cfg.sheetOnWidthMM) + ' mm'
+          });
+        }
+        var topBaseY = startY - 14;
+        var topDimY = topBaseY - ((dimDefs.length - 1) * 22);
+        var extX = [startX];
+        for (var c = 1; c <= maxCutIdx; c++) extX.push(startX + colW * c);
+        if (Math.abs(extX[extX.length - 1] - (startX + totalW)) > 0.1) extX.push(startX + totalW);
+        for (var i = 0; i < extX.length; i++) {
+          dimSvg += '<line x1="' + extX[i].toFixed(2) + '" y1="' + topDimY.toFixed(2) + '" x2="' + extX[i].toFixed(2) + '" y2="' + startY.toFixed(2) + '" stroke="#9ca3af" stroke-width="0.8" stroke-dasharray="4 3"></line>';
+        }
+        for (var d = 0; d < dimDefs.length; d++) {
+          var dy = topBaseY - ((dimDefs.length - 1 - d) * 22);
+          dimSvg += hDim(startX, dimDefs[d].x2, dy, dimDefs[d].label);
+        }
+
+        var vX = startX - 26;
+        var vY1 = startY;
+        var vY2 = startY + rowH;
+        var vMid = (vY1 + vY2) / 2;
+        var vLabel = fmt(cfg.sheetOnLengthMM) + ' mm';
+        var vPad = 14;
+        var vW = Math.max(70, vLabel.length * 10 + vPad * 2);
+        var vH = 22;
+        dimSvg += '<line x1="' + vX.toFixed(2) + '" y1="' + vY1.toFixed(2) + '" x2="' + vX.toFixed(2) + '" y2="' + vY2.toFixed(2) + '" stroke="#111827" stroke-width="1"></line>' +
+          '<line x1="' + vX.toFixed(2) + '" y1="' + vY1.toFixed(2) + '" x2="' + (vX - 5).toFixed(2) + '" y2="' + (vY1 + 7).toFixed(2) + '" stroke="#111827" stroke-width="1"></line>' +
+          '<line x1="' + vX.toFixed(2) + '" y1="' + vY1.toFixed(2) + '" x2="' + (vX + 5).toFixed(2) + '" y2="' + (vY1 + 7).toFixed(2) + '" stroke="#111827" stroke-width="1"></line>' +
+          '<line x1="' + vX.toFixed(2) + '" y1="' + vY2.toFixed(2) + '" x2="' + (vX - 5).toFixed(2) + '" y2="' + (vY2 - 7).toFixed(2) + '" stroke="#111827" stroke-width="1"></line>' +
+          '<line x1="' + vX.toFixed(2) + '" y1="' + vY2.toFixed(2) + '" x2="' + (vX + 5).toFixed(2) + '" y2="' + (vY2 - 7).toFixed(2) + '" stroke="#111827" stroke-width="1"></line>' +
+          '<g transform="translate(' + vX.toFixed(2) + ',' + vMid.toFixed(2) + ') rotate(-90)">' +
+          '<rect x="' + (-vW/2).toFixed(2) + '" y="' + (-vH/2).toFixed(2) + '" width="' + vW + '" height="' + vH + '" rx="2" fill="#ffffff" stroke="none"></rect>' +
+          '<text x="0" y="1" text-anchor="middle" dominant-baseline="middle" font-size="18" fill="#111827">' + vLabel + '</text>' +
+          '</g>';
+
+        svg.innerHTML =
+          '<rect x="' + startX + '" y="' + startY + '" width="' + totalW + '" height="' + totalH + '" rx="0" fill="#ffffff" stroke="#0A2351" stroke-width="2"></rect>' +
+          lines +
+          wasteRect +
+          dimSvg;
+        if (boxId === 'side-sim-window') requestAnimationFrame(setSimMaxHeight);
+      }
+
+      function calcRollToSheets() {
+        var rollLengthM = val('role-c1-rollLength');
+        var rollWidthMM = val('role-c1-rollWidth');
+        var dimAMM = val('role-c1-sheetLength');
+        var dimBMM = val('role-c1-sheetWidth');
+        var output = document.getElementById('role-result1');
+
+        if (!rollLengthM || !rollWidthMM || !dimAMM || !dimBMM) {
+          output.className = 'output placeholder';
+          output.textContent = 'Introduceți dimensiunile pentru calcul';
+          document.getElementById('role-details1').style.display = 'none';
+          document.getElementById('role-r1-waste-box').classList.remove('loss');
+          renderCutDiagram(null, 'side-sim-window', 'side-cut-svg');
+          return;
+        }
+        if (dimAMM < 100 || dimBMM < 100) {
+          output.className = 'output placeholder';
+          output.textContent = 'Dimensiunea minimă a colii este 100 mm';
+          document.getElementById('role-details1').style.display = 'none';
+          document.getElementById('role-r1-waste-box').classList.remove('loss');
+          renderCutDiagram(null, 'side-sim-window', 'side-cut-svg');
+          return;
+        }
+
+        var rollLengthMM = rollLengthM * 1000;
+        var optionA = {
+          name: 'A',
+          sheetOnWidthMM: dimBMM,
+          sheetOnLengthMM: dimAMM
+        };
+        optionA.across = Math.floor(rollWidthMM / optionA.sheetOnWidthMM);
+        optionA.along = Math.floor(rollLengthMM / optionA.sheetOnLengthMM);
+        optionA.total = optionA.across * optionA.along;
+        optionA.waste = rollWidthMM - (optionA.across * optionA.sheetOnWidthMM);
+        optionA.wasteAlong = Math.round(rollLengthMM - (optionA.along * optionA.sheetOnLengthMM));
+        optionA.slitCuts = Math.max(0, optionA.across - 1);
+        optionA.valid = optionA.across > 0 && optionA.along > 0;
+
+        var optionB = {
+          name: 'B',
+          sheetOnWidthMM: dimAMM,
+          sheetOnLengthMM: dimBMM
+        };
+        optionB.across = Math.floor(rollWidthMM / optionB.sheetOnWidthMM);
+        optionB.along = Math.floor(rollLengthMM / optionB.sheetOnLengthMM);
+        optionB.total = optionB.across * optionB.along;
+        optionB.waste = rollWidthMM - (optionB.across * optionB.sheetOnWidthMM);
+        optionB.wasteAlong = Math.round(rollLengthMM - (optionB.along * optionB.sheetOnLengthMM));
+        optionB.slitCuts = Math.max(0, optionB.across - 1);
+        optionB.valid = optionB.across > 0 && optionB.along > 0;
+
+        var options = [optionA, optionB].filter(function(o) { return o.valid; });
+        if (!options.length) {
+          output.className = 'output error';
+          output.textContent = 'Coala nu încape pe lățimea rolei!';
+          document.getElementById('role-details1').style.display = 'none';
+          document.getElementById('role-r1-waste-box').classList.remove('loss');
+          renderCutDiagram(null, 'side-sim-window', 'side-cut-svg');
+          return;
+        }
+
+        var best = options[0];
+        options.slice(1).forEach(function(o) {
+          if (o.waste < best.waste) {
+            best = o;
+            return;
+          }
+          if (o.waste === best.waste && o.slitCuts < best.slitCuts) {
+            best = o;
+            return;
+          }
+          if (o.waste === best.waste && o.slitCuts === best.slitCuts && o.total > best.total) {
+            best = o;
+            return;
+          }
+          if (o.waste === best.waste && o.slitCuts === best.slitCuts && o.total === best.total && o.wasteAlong < best.wasteAlong) {
+            best = o;
+          }
+        });
+
+        var across = best.across;
+        var along = best.along;
+        var waste = best.waste;
+        var sheetOnWidthMM = best.sheetOnWidthMM;
+        var sheetOnLengthMM = best.sheetOnLengthMM;
+
+        var wastePct = (waste / rollWidthMM) * 100;
+        output.className = 'output';
+        output.innerHTML = '<div><strong>Număr coli:</strong> <span class="output-number">' + fmt(best.total) + '</span> <small>coli întregi din rolă</small></div>';
+
+        document.getElementById('role-r1-waste').textContent = fmt(waste) + ' mm (' + fmtPct(wastePct) + '%)';
+        document.getElementById('role-r1-waste-box').classList.toggle('loss', waste > 0);
+        document.getElementById('role-r1-counts').textContent = fmt(across) + ' x ' + fmt(along) + ' coli';
+        document.getElementById('role-r1-step-length').textContent = fmt(sheetOnLengthMM) + ' mm';
+        var cutsWidthText = (function() {
+          var includeLastCut = waste > 0.0001;
+          var maxCutIdx = includeLastCut ? across : (across - 1);
+          if (maxCutIdx < 1) return '—';
+          var pos = [];
+          for (var i = 1; i <= maxCutIdx; i++) pos.push(fmt(i * sheetOnWidthMM));
+          return pos.join('; ') + ' mm';
+        })();
+        document.getElementById('role-r1-cuts-width').textContent = cutsWidthText;
+        document.getElementById('role-details1').style.display = 'grid';
+        shrinkCutsIfOverflow('role-r1-cuts-width');
+
+        renderCutDiagram({
+          rollWidthMM: rollWidthMM,
+          sheetOnWidthMM: sheetOnWidthMM,
+          sheetOnLengthMM: sheetOnLengthMM,
+          across: across,
+          along: along,
+          wasteMM: waste
+        }, 'side-sim-window', 'side-cut-svg');
+      }
+
+      function calcSheetsToRoll() {
+        var numSheets = val('role-c2-numSheets');
+        var rollWidthMM = val('role-c2-rollWidth');
+        var dimAMM = val('role-c2-sheetLength');
+        var dimBMM = val('role-c2-sheetWidth');
+        var output = document.getElementById('role-result2');
+
+        if (!numSheets || !rollWidthMM || !dimAMM || !dimBMM) {
+          output.className = 'output placeholder';
+          output.textContent = 'Introduceți datele pentru calcul';
+          document.getElementById('role-details2').style.display = 'none';
+          document.getElementById('role-r2-waste-box').classList.remove('loss');
+          renderCutDiagram(null, 'side-sim-window', 'side-cut-svg');
+          return;
+        }
+        if (dimAMM < 100 || dimBMM < 100) {
+          output.className = 'output placeholder';
+          output.textContent = 'Dimensiunea minimă a colii este 100 mm';
+          document.getElementById('role-details2').style.display = 'none';
+          document.getElementById('role-r2-waste-box').classList.remove('loss');
+          renderCutDiagram(null, 'side-sim-window', 'side-cut-svg');
+          return;
+        }
+
+        var optionA = {
+          name: 'A',
+          sheetOnWidthMM: dimBMM,
+          sheetOnLengthMM: dimAMM
+        };
+        optionA.across = Math.floor(rollWidthMM / optionA.sheetOnWidthMM);
+        optionA.waste = rollWidthMM - (optionA.across * optionA.sheetOnWidthMM);
+        optionA.cuts = optionA.across > 0 ? Math.ceil(numSheets / optionA.across) : Infinity;
+        optionA.meters = (optionA.cuts * optionA.sheetOnLengthMM) / 1000;
+        optionA.slitCuts = Math.max(0, optionA.across - 1);
+        optionA.valid = optionA.across > 0;
+
+        var optionB = {
+          name: 'B',
+          sheetOnWidthMM: dimAMM,
+          sheetOnLengthMM: dimBMM
+        };
+        optionB.across = Math.floor(rollWidthMM / optionB.sheetOnWidthMM);
+        optionB.waste = rollWidthMM - (optionB.across * optionB.sheetOnWidthMM);
+        optionB.cuts = optionB.across > 0 ? Math.ceil(numSheets / optionB.across) : Infinity;
+        optionB.meters = (optionB.cuts * optionB.sheetOnLengthMM) / 1000;
+        optionB.slitCuts = Math.max(0, optionB.across - 1);
+        optionB.valid = optionB.across > 0;
+
+        var options = [optionA, optionB].filter(function(o) { return o.valid; });
+        if (!options.length) {
+          output.className = 'output error';
+          output.textContent = 'Coala nu încape pe lățimea rolei!';
+          document.getElementById('role-details2').style.display = 'none';
+          document.getElementById('role-r2-waste-box').classList.remove('loss');
+          renderCutDiagram(null, 'side-sim-window', 'side-cut-svg');
+          return;
+        }
+
+        var best = options[0];
+        options.slice(1).forEach(function(o) {
+          if (o.waste < best.waste) {
+            best = o;
+            return;
+          }
+          if (o.waste === best.waste && o.slitCuts < best.slitCuts) {
+            best = o;
+            return;
+          }
+          if (o.waste === best.waste && o.slitCuts === best.slitCuts && o.meters < best.meters) {
+            best = o;
+          }
+        });
+
+        var meters = best.meters;
+        var across = best.across;
+        var cuts = best.cuts;
+        var waste = best.waste;
+
+        output.className = 'output';
+        output.innerHTML = '<div><strong>Metri liniari necesari:</strong> <span class="output-number">' + fmt(meters) + '</span> <small>m</small></div>';
+        document.getElementById('role-r2-counts').textContent = fmt(across) + ' x ' + fmt(cuts) + ' coli';
+        document.getElementById('role-r2-waste').textContent = fmt(waste) + ' mm (' + fmtPct((waste / rollWidthMM) * 100) + '%)';
+        document.getElementById('role-r2-waste-box').classList.toggle('loss', waste > 0);
+        var sheetOnWidthMM2 = best.sheetOnWidthMM;
+        var sheetOnLengthMM2 = best.sheetOnLengthMM;
+        document.getElementById('role-r2-step-length').textContent = fmt(sheetOnLengthMM2) + ' mm';
+        var cutsWidthText2 = (function() {
+          var includeLastCut = waste > 0.0001;
+          var maxCutIdx = includeLastCut ? across : (across - 1);
+          if (maxCutIdx < 1) return '—';
+          var pos = [];
+          for (var i = 1; i <= maxCutIdx; i++) pos.push(fmt(i * sheetOnWidthMM2));
+          return pos.join('; ') + ' mm';
+        })();
+        document.getElementById('role-r2-cuts-width').textContent = cutsWidthText2;
+        document.getElementById('role-details2').style.display = 'grid';
+        shrinkCutsIfOverflow('role-r2-cuts-width');
+
+        renderCutDiagram({
+          rollWidthMM: rollWidthMM,
+          sheetOnWidthMM: best.sheetOnWidthMM,
+          sheetOnLengthMM: best.sheetOnLengthMM,
+          across: across,
+          along: cuts,
+          wasteMM: waste
+        }, 'side-sim-window', 'side-cut-svg');
+      }
+
+      function restrictToNumbers(input, calcFn) {
+        input.addEventListener('keydown', function(e) {
+          var allowed = ['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'];
+          if (!/[0-9.]/.test(e.key) && allowed.indexOf(e.key) === -1 && !(e.ctrlKey && ['a', 'c', 'v', 'x'].indexOf(e.key.toLowerCase()) !== -1)) {
+            e.preventDefault();
+          }
+        });
+        input.addEventListener('input', function() {
+          cacheSave(input.id, input.value);
+          syncSharedField(input.id);
+          recalcRoleBoth();
+        });
+        input.addEventListener('paste', function(e) {
+          e.preventDefault();
+          var paste = (e.clipboardData || window.clipboardData).getData('text');
+          this.value = paste.replace(/[^0-9.]/g, '');
+          cacheSave(input.id, this.value);
+          syncSharedField(input.id);
+          recalcRoleBoth();
+        });
+      }
+
+      function getSheetScrubMax(rollWidthId) {
+        var rw = val(rollWidthId);
+        if (!rw) return 1500;
+        return Math.max(100, Math.round(rw * 1.5));
+      }
+
+      var scrubState = null;
+      function startSheetScrub(e, inputId, rollWidthId) {
+        if (e.button !== 0 || sheetDragMode) return;
+        e.preventDefault();
+        var input = document.getElementById(inputId);
+        if (!input) return;
+        var cur = parseInt(input.value, 10);
+        var startVal = isNaN(cur) ? 100 : cur;
+        scrubState = {
+          input: input,
+          rollWidthId: rollWidthId,
+          startY: e.clientY,
+          startVal: startVal
+        };
+        input.classList.add('scrubbing');
+        var zone = e.currentTarget;
+        if (zone && zone.classList) zone.classList.add('scrubbing');
+        scrubState.zone = zone;
+        document.body.style.cursor = 'ns-resize';
+        document.body.style.userSelect = 'none';
+      }
+
+      window.addEventListener('mousemove', function(e) {
+        if (!scrubState) return;
+        var max = getSheetScrubMax(scrubState.rollWidthId);
+        var dy = scrubState.startY - e.clientY;
+        var next = Math.round(scrubState.startVal + dy);
+        next = Math.max(100, Math.min(max, next));
+        if (scrubState.input.value !== String(next)) {
+          scrubState.input.value = String(next);
+          cacheSave(scrubState.input.id, scrubState.input.value);
+          syncSharedField(scrubState.input.id);
+          recalcRoleBoth();
+        }
+      });
+
+      window.addEventListener('mouseup', function() {
+        if (!scrubState) return;
+        scrubState.input.classList.remove('scrubbing');
+        if (scrubState.zone && scrubState.zone.classList) scrubState.zone.classList.remove('scrubbing');
+        scrubState = null;
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+      });
+
+      [
+        { inputId: 'role-c1-sheetLength', rollWidthId: 'role-c1-rollWidth' },
+        { inputId: 'role-c1-sheetWidth', rollWidthId: 'role-c1-rollWidth' },
+        { inputId: 'role-c2-sheetLength', rollWidthId: 'role-c2-rollWidth' },
+        { inputId: 'role-c2-sheetWidth', rollWidthId: 'role-c2-rollWidth' }
+      ].forEach(function(cfg) {
+        var input = document.getElementById(cfg.inputId);
+        if (!input) return;
+        input.classList.add('scrub-input');
+        var wrap = input.closest('.unit-input');
+        if (!wrap) return;
+        wrap.classList.add('has-scrub');
+        if (!wrap.querySelector('.sheet-scrub-zone')) {
+          var zone = document.createElement('div');
+          zone.className = 'sheet-scrub-zone';
+          zone.innerHTML = '<span>▲</span><span>▼</span>';
+          zone.addEventListener('mousedown', function(e) {
+            startSheetScrub(e, cfg.inputId, cfg.rollWidthId);
+          });
+          wrap.appendChild(zone);
+        }
+      });
+
+      document.querySelectorAll('#applet-coli-rola .tab-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          switchTab(parseInt(btn.getAttribute('data-tab'), 10));
+        });
+      });
+
+      document.querySelectorAll('.sheet-mode-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() { toggleSheetDragMode(); });
+      });
+
+      var sheetDragActive = false;
+      var sheetDragWrap = null;
+      document.getElementById('applet-coli-rola').addEventListener('mousedown', function(e) {
+        var h = e.target.closest('.sheet-drag-handle');
+        if (!h || !sheetDragMode) return;
+        e.preventDefault();
+        sheetDragActive = true;
+        sheetDragWrap = document.getElementById('sheet-drag-wrap-' + (h.getAttribute('data-panel') || '0'));
+        document.body.style.cursor = 'nwse-resize';
+        document.body.style.userSelect = 'none';
+      });
+      window.addEventListener('mousemove', function(e) {
+        if (!sheetDragActive || !sheetDragWrap) return;
+        var parent = sheetDragWrap.parentElement;
+        var pr = parent ? parent.getBoundingClientRect() : sheetDragWrap.getBoundingClientRect();
+        var r = sheetDragWrap.getBoundingClientRect();
+        var maxContainerW = pr.width - 4;
+        var cw = Math.max(200, maxContainerW);
+        var ch = Math.max(140, (sheetDragWrap.clientHeight || 260) + 20);
+        var maxVert = getMaxVertMM();
+        var scale = Math.min(cw / 1000, ch / maxVert);
+        var px = Math.min(e.clientX - r.left, cw);
+        var py = e.clientY - r.top;
+        var wMM = Math.round(Math.max(100, px / scale));
+        var hMM = Math.round(Math.max(100, Math.min(maxVert, py / scale)));
+        setSheetMM(wMM, hMM);
+        renderSheetDragBox(0);
+        renderSheetDragBox(1);
+      });
+      window.addEventListener('mouseup', function() {
+        if (sheetDragActive) {
+          sheetDragActive = false;
+          sheetDragWrap = null;
+          document.body.style.cursor = '';
+          document.body.style.userSelect = '';
+        }
+      });
+
+      var roleInputIds = [
+        'role-c1-rollLength', 'role-c1-rollWidth', 'role-c1-sheetLength', 'role-c1-sheetWidth',
+        'role-c2-numSheets', 'role-c2-rollWidth', 'role-c2-sheetLength', 'role-c2-sheetWidth'
+      ];
+      roleInputIds.forEach(function(id) {
+        var el = document.getElementById(id);
+        el.value = cacheLoad(id);
+      });
+      ['role-c1-rollWidth', 'role-c1-sheetLength', 'role-c1-sheetWidth'].forEach(function(id) {
+        syncSharedField(id);
+      });
+
+      ['role-c1-rollLength', 'role-c1-rollWidth', 'role-c1-sheetLength', 'role-c1-sheetWidth'].forEach(function(id) {
+        restrictToNumbers(document.getElementById(id), calcRollToSheets);
+      });
+      ['role-c2-numSheets', 'role-c2-rollWidth', 'role-c2-sheetLength', 'role-c2-sheetWidth'].forEach(function(id) {
+        restrictToNumbers(document.getElementById(id), calcSheetsToRoll);
+      });
+      var tab = parseInt(cacheLoad('role-tab'), 10);
+      if (!isNaN(tab) && tab >= 0 && tab <= 1) switchTab(tab);
+      updateSheetModeUI();
+      if (sheetDragMode) {
+        window.addEventListener('resize', onSheetDragResize);
+        requestAnimationFrame(function() { renderSheetDragBox(0); renderSheetDragBox(1); });
+      }
+      recalcRoleBoth();
+    }
+
+    function initKgApplet() {
+      if (kgInited) return;
+      kgInited = true;
+
+      function fmt(n) {
+        var num = Number(n);
+        if (!isFinite(num)) return '';
+        var isInt = Math.abs(num - Math.round(num)) < 1e-9;
+        var s = num.toLocaleString('ro-RO', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: isInt ? 0 : 1
+        });
+        return s.replace(/\./g, ' ').replace(/\u00A0/g, ' ').replace(/\u202F/g, ' ');
+      }
+
+      function val(id) {
+        var v = parseFloat(document.getElementById(id).value);
+        return isNaN(v) || v <= 0 ? null : v;
+      }
+
+      function calcKgToLength() {
+        var grammage = val('kg-grammage');
+        var rollWidthMM = val('kg-rollWidth');
+        var weightKg = val('kg-weight');
+        var out = document.getElementById('kg-result');
+        var details = document.getElementById('kg-details');
+        var formulas = document.getElementById('kg-formulas');
+
+        if (!grammage || !rollWidthMM || !weightKg) {
+          out.className = 'output placeholder';
+          out.textContent = 'Introduceți datele pentru calcul';
+          details.style.display = 'none';
+          formulas.style.display = 'none';
+          return;
+        }
+
+        var widthM = rollWidthMM / 1000;
+        var weightG = weightKg * 1000;
+        var lengthM = weightG / (grammage * widthM);
+        var areaM2 = lengthM * widthM;
+
+        out.className = 'output';
+        out.innerHTML = '<div><strong>Lungime rolă:</strong> <span class="output-number">' + fmt(lengthM) + '</span> <small>m</small></div>';
+        document.getElementById('kg-area').textContent = fmt(areaM2) + ' m²';
+        document.getElementById('kg-width-m').textContent = fmt(widthM) + ' m';
+        details.style.display = 'grid';
+        formulas.style.display = 'block';
+        formulas.innerHTML =
+          '<div>Formulă: Lungime (m) = Greutate (g) / (Gramaj (g/m²) × Lățime (m))</div>' +
+          '<div>Lungime = ' + fmt(weightG) + ' / (' + fmt(grammage) + ' × ' + fmt(widthM) + ') = ' + fmt(lengthM) + ' m</div>' +
+          '<div>Suprafață totală = ' + fmt(lengthM) + ' × ' + fmt(widthM) + ' = ' + fmt(areaM2) + ' m²</div>';
+      }
+
+      function restrictToNumbers(input) {
+        input.addEventListener('keydown', function(e) {
+          var allowed = ['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'];
+          if (!/[0-9.]/.test(e.key) && allowed.indexOf(e.key) === -1 && !(e.ctrlKey && ['a', 'c', 'v', 'x'].indexOf(e.key.toLowerCase()) !== -1)) {
+            e.preventDefault();
+          }
+        });
+        input.addEventListener('input', function() {
+          cacheSave(input.id, input.value);
+          calcKgToLength();
+        });
+        input.addEventListener('paste', function(e) {
+          e.preventDefault();
+          var paste = (e.clipboardData || window.clipboardData).getData('text');
+          this.value = paste.replace(/[^0-9.]/g, '');
+          cacheSave(input.id, this.value);
+          calcKgToLength();
+        });
+      }
+
+      ['kg-grammage', 'kg-rollWidth', 'kg-weight'].forEach(function(id) {
+        var el = document.getElementById(id);
+        el.value = cacheLoad(id);
+        restrictToNumbers(el);
+      });
+
+      calcKgToLength();
+    }
+
+    function routeFromHash() {
+      return window.location.hash.replace(/^#/, '').trim();
+    }
+
+    function syncHashForApp(appId) {
+      var route = appRoutes[appId];
+      if (!route || routeFromHash() === route) return;
+      window.location.hash = route;
+    }
+
+    function clearHash() {
+      if (!window.location.hash) return;
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      } else {
+        window.location.hash = '';
+      }
+    }
+
+    function openApplet(appId, syncHash) {
+      var meta = appMeta[appId];
+      if (!meta) return;
+      landing.style.display = 'none';
+      shell.classList.add('active');
+      var withSim = appId === 'coli-rola';
+      sideSimWindow.style.display = withSim ? 'flex' : 'none';
+      appletWorkspace.classList.toggle('with-sim', withSim);
+      titleEl.textContent = meta.title;
+      showPanel(appId);
+      if (appId === 'consum-cerneala') initInkApplet();
+      if (appId === 'coli-rola') initRoleApplet();
+      if (appId === 'lungime-greutate') initKgApplet();
+      if (withSim) requestAnimationFrame(function() { setSimMaxHeight(); });
+      if (syncHash) syncHashForApp(appId);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openLanding(syncHash) {
+      shell.classList.remove('active');
+      sideSimWindow.style.display = 'none';
+      appletWorkspace.classList.remove('with-sim');
+      landing.style.display = 'block';
+      if (syncHash) clearHash();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function applyRoute() {
+      var appId = routeToApp[routeFromHash()];
+      if (appId) {
+        openApplet(appId, false);
+      } else {
+        openLanding(false);
+      }
+    }
+
+    document.querySelectorAll('.app-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        openApplet(btn.getAttribute('data-app'), true);
+      });
+    });
+
+    homeBtn.addEventListener('click', function() {
+      openLanding(true);
+    });
+    window.addEventListener('hashchange', applyRoute);
+    window.addEventListener('resize', setSimMaxHeight);
+    var lastSimWidth = 0;
+    if (typeof ResizeObserver !== 'undefined') {
+      var simResizeObs = new ResizeObserver(function() {
+        var w = sideSimWindow.offsetWidth;
+        if (sideSimWindow.style.display === 'flex' && w > 80 && lastSimWidth <= 80) {
+          requestAnimationFrame(function() {
+            if (typeof recalcRoleBoth === 'function') recalcRoleBoth();
+          });
+        }
+        lastSimWidth = w;
+      });
+      simResizeObs.observe(sideSimWindow);
+      var shellResizeObs = new ResizeObserver(function() {
+        requestAnimationFrame(setSimMaxHeight);
+      });
+      shellResizeObs.observe(shell);
+    }
+    applyRoute();
+  </script>
+</body>
+</html>
